@@ -38,6 +38,7 @@ class App extends React.Component {
 
   render() {
     var url = this.props.user ?  ( <Home/>) : (<Login/>);
+    
     return (
           <div>
             {url}
