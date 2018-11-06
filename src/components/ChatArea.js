@@ -1,8 +1,86 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { firebaseAuth } from "../config/firebase";
+import { bindActionCreators, compose } from 'redux';
+import { updateUser } from '../actions/updateUser';
 class ChatArea extends React.Component {
+clickToChat(chattingUser) {
+      var user = firebaseAuth.currentUser;
+      var email, emailName;
+      
+      if (user != null) {
+      email = user.email;
+      emailName = email.split('@gmail.com');
+      }
+      if (chattingUser!=null) {
+        
+        this.props.firebase.update(`user/${emailName[0]}`, 
+            {   
+                isChattingWith: chattingUser});
+            }
+}
 
     render() {
+
+      //this.props.firebase.remove('user/hungphat11997/isChattingWith');
+      //this.props.firebase.remove('user/uefanamlood/isChattingWith');
+      var user = firebaseAuth.currentUser;
+      var email, emailName;
+      
+      if (user != null) {
+      email = user.email;
+      emailName = email.split('@gmail.com');
+      }
+      
+      const userList  = !isLoaded(this.props.user)
+      ? 'Loading'
+      : isEmpty(this.props.user)
+        ? 'User list is empty'
+        : Object.keys(this.props.user).map(
+          (key, id) => (
+
+            (<li key={key} id={id} class="clearfix li-cursor" onClick={() => this.clickToChat(this.props.user[key].email)}>
+                  <img class="user-profile" src={this.props.user[key].photoUrl} alt="avatar" />
+                  <div class="about">
+                    <div class="name">{this.props.user[key].name}</div>
+                    
+                      {this.props.user[key].online == true ? (<div class="online-stt">online</div>):<div class="status">offline</div>}
+                    </div>
+                  
+            </li>)
+            )
+        )
+        const arr  = !isLoaded(this.props.user)
+        ? 'Loading'
+        : isEmpty(this.props.user)
+          ? 'User list is empty'
+          : Object.keys(this.props.user).map(
+            (key, id) => ( this.props.user[key])
+          )
+          let x = 0;
+          let y = 0;
+          var head;
+          while(arr[x] != null) {
+            console.log(arr[x].isChattingWith+"a"+email)
+            
+            if(arr[x].email === email) {
+            while(arr[y] != null){
+              if(arr[x].isChattingWith === arr[y].email) {
+                head = (<div class="chat-header clearfix">
+                <img class="user-profile" src={arr[y].photoUrl} alt="avatar" />
+                
+                <div class="chat-about">
+                  <div class="chat-with">Chat with {arr[y].name}</div>
+                </div>
+                <i class="fa fa-star"></i>
+              </div>)
+              }
+              y++;
+            } }
+            x++;
+          }
+
         return (
             <div>
             <div class="container1 clearfix">
@@ -12,120 +90,13 @@ class ChatArea extends React.Component {
                 <i class="fa fa-search"></i>
               </div>
               <ul class="list">
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Vincent Porter</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Aiden Chavez</div>
-                    <div class="status">
-                      <i class="fa fa-circle offline"></i> left 7 mins ago
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Mike Thomas</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Erica Hughes</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_05.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Ginger Johnston</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_06.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Tracy Carpenter</div>
-                    <div class="status">
-                      <i class="fa fa-circle offline"></i> left 30 mins ago
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_07.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Christian Kelly</div>
-                    <div class="status">
-                      <i class="fa fa-circle offline"></i> left 10 hours ago
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_08.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Monica Ward</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_09.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Dean Henry</div>
-                    <div class="status">
-                      <i class="fa fa-circle offline"></i> offline since Oct 28
-                    </div>
-                  </div>
-                </li>
-                
-                <li class="clearfix">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_10.jpg" alt="avatar" />
-                  <div class="about">
-                    <div class="name">Peyton Mckinney</div>
-                    <div class="status">
-                      <i class="fa fa-circle online"></i> online
-                    </div>
-                  </div>
-                </li>
+                {userList}
               </ul>
             </div>
 
 
             <div class="chat">
-              <div class="chat-header clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
-                
-                <div class="chat-about">
-                  <div class="chat-with">Chat with Vincent Porter</div>
-                  <div class="chat-num-messages">already 1 902 messages</div>
-                </div>
-                <i class="fa fa-star"></i>
-              </div>
-              
+            {head}
               <div class="chat-history">
                 <ul>
                   <li class="clearfix">
@@ -170,16 +141,6 @@ class ChatArea extends React.Component {
                     </div>
                   </li>
                   
-                  <li>
-                    <div class="message-data">
-                      <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-                      <span class="message-data-time">10:31 AM, Today</span>
-                    </div>
-                    <i class="fa fa-circle online"></i>
-                    <i class="fa fa-circle online" ></i>
-                    <i class="fa fa-circle online"></i>
-                  </li>
-                  
                 </ul>
                 
               </div>
@@ -199,4 +160,12 @@ class ChatArea extends React.Component {
     }
 }
 
-export default ChatArea;
+//export default ChatArea;
+export default compose(
+  firebaseConnect([
+    'user' // { path: '/user' } // object notation
+  ]),
+  connect(((state) => ({
+    user: state.firebase.data.user,
+  })),)
+)(ChatArea)

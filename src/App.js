@@ -3,12 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
-import firebase from "firebase";
-import {firebaseAuth, googleProvider} from "./config/firebase";
+import {firebaseAuth, googleProvider, adminAuth} from "./config/firebase";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { updateUser } from './actions/updateUser';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { withFirebase, firebaseConnect } from 'react-redux-firebase';
 
 class App extends React.Component {
 
@@ -26,6 +26,8 @@ class App extends React.Component {
   authListener = () => {
     firebaseAuth.onAuthStateChanged((user) => {
       this.onUpdateUser(user);
+      
+
       //console.log(user);
       if (user) {
         //console.log(user);
@@ -38,7 +40,6 @@ class App extends React.Component {
 
   render() {
     var url = this.props.user ?  ( <Home/>) : (<Login/>);
-    
     return (
           <div>
             {url}

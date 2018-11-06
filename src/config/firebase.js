@@ -1,5 +1,6 @@
 import firebase from "firebase";
-var config = {
+import * as admin from 'firebase-admin';
+export const config = {
     apiKey: "AIzaSyAB-_sEAJ4pXf4unEhRX779gpG8WYKc_o8",
     authDomain: "doancnm.firebaseapp.com",
     databaseURL: "https://doancnm.firebaseio.com",
@@ -9,4 +10,17 @@ var config = {
   };
   firebase.initializeApp(config);
   export const googleProvider = new firebase.auth.GoogleAuthProvider();
+  
+  googleProvider.setCustomParameters({
+    prompt: 'select_account'
+  });
   export const firebaseAuth = firebase.auth();
+
+var serviceAccount = require('../admin/admin.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://doancnm.firebaseio.com"
+});
+export default { config }
+export const adminAuth = admin.auth();

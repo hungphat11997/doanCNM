@@ -79,8 +79,9 @@
   justify-content: right
 }
 .user-profile {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .user-profile img {
@@ -297,4 +298,10 @@ body {
   content: " ";
   clear: both;
   height: 0;
+}
+.online-stt {
+  color: rgb(64, 180, 53);
+}
+.li-cursor {
+  cursor: pointer;
 }

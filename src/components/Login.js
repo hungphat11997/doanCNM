@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import firebase from "firebase";
 import PropTypes from 'prop-types'
-import {firebaseAuth, googleProvider} from "../config/firebase";
+import {firebaseAuth, googleProvider, adminAuth} from "../config/firebase";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { Grid, Row, Col, Button} from 'react-bootstrap';
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -12,11 +13,10 @@ class Login extends React.Component {
     }
 
     handleLogin = () => {
-        
-    firebaseAuth.signInWithRedirect(googleProvider);
-
+    firebaseAuth.signInWithPopup(googleProvider);
     }
-    
+
+
   render() {
 
     return (
@@ -59,4 +59,4 @@ class Login extends React.Component {
   
     }
 }
- export default Login;
+ export default (Login);
