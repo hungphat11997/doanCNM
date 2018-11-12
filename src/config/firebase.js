@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import * as admin from 'firebase-admin';
 export const config = {
     apiKey: "AIzaSyAB-_sEAJ4pXf4unEhRX779gpG8WYKc_o8",
     authDomain: "doancnm.firebaseapp.com",
@@ -16,11 +15,4 @@ export const config = {
   });
   export const firebaseAuth = firebase.auth();
 
-var serviceAccount = require('../admin/admin.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://doancnm.firebaseio.com"
-});
-export default { config }
-export const adminAuth = admin.auth();

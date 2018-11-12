@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import {firebaseAuth, googleProvider, adminAuth} from "../config/firebase";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { Grid, Row, Col, Button, ListGroupItem, ListGroup, Image} from 'react-bootstrap';
+import React from 'react';
+import {firebaseAuth} from "../config/firebase";
+import { Grid, Row, Col } from 'react-bootstrap';
 import ChatArea from './ChatArea';
 import { withFirebase } from 'react-redux-firebase';
 class Home extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
 
 
     logout = () => {
@@ -30,6 +26,22 @@ class Home extends React.Component {
         }
     }
 
+    componentDidMount = () => {
+        window.addEventListener("beforeunload", (ev) => 
+{  
+    ev.preventDefault();
+    this.logout();
+});
+    }
+    
+    componentWillUnmount = () => {
+        window.addEventListener("beforeunload", (ev) => 
+        {  
+            ev.preventDefault();
+            this.logout();
+        });
+    }
+
     render() {
 
         var user = firebaseAuth.currentUser;
@@ -43,12 +55,11 @@ class Home extends React.Component {
         uid = user.uid;
         emailName = email.split('@gmail.com')
 
-            this.props.firebase.set(`user/${emailName[0]}`, 
+            this.props.firebase.update(`user/${emailName[0]}`, 
             {   name: name,
                 email: email,
                 photoUrl: photoUrl,
                 emailVerified: emailVerified,
-                isChattingWith: email,
                 online: true});
         }
  
@@ -57,7 +68,7 @@ class Home extends React.Component {
                 <Grid>
                 <Row className="show-grid">
     <Col xs={6} md={4}>
-    <div>{name}</div>
+    <div><img class="user-profile" src={photoUrl} alt="avatar" /> {name}</div>
     </Col>
     <Col xs={6} md={4}>
     </Col>

@@ -1,21 +1,12 @@
-import React, { Component } from 'react';
-import firebase from "firebase";
-import PropTypes from 'prop-types'
-import {firebaseAuth, googleProvider, adminAuth} from "../config/firebase";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { Grid, Row, Col, Button} from 'react-bootstrap';
+import React from 'react';
+import {firebaseAuth, googleProvider} from "../config/firebase";
+import { Grid, Row, Col} from 'react-bootstrap';
 
 class Login extends React.Component {
-
-    constructor(props) {
-        super(props);
-        
-    }
 
     handleLogin = () => {
     firebaseAuth.signInWithPopup(googleProvider);
     }
-
 
   render() {
 
@@ -54,8 +45,6 @@ class Login extends React.Component {
   </Row>
 </Grid>
     )
-
-
   
     }
 }

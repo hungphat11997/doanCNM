@@ -1,4 +1,5 @@
 import { UPDATE_USER} from '../actions/updateUser';
+
 export default function userReducer(state = null, action) {
 
     switch(action.type) {
